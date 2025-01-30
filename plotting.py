@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import streamlit as st
+import plotly.graph_objects as go
 
 
 def plot_trajectory(x, y, title):
@@ -14,15 +15,26 @@ def plot_trajectory(x, y, title):
 
 
 def plot_3d_trajectory(r_values):
-    fig = plt.figure(figsize=(8, 6))
-    ax = fig.add_subplot(111, projection="3d")
-    ax.plot(
-        r_values[:, 0], r_values[:, 1], r_values[:, 2], label="Trajetória da Partícula"
+    fig = go.Figure(
+        data=[
+            go.Scatter3d(
+                x=r_values[:, 0],
+                y=r_values[:, 1],
+                z=r_values[:, 2],
+                mode="lines",
+                marker=dict(size=4, color="blue"),
+            )
+        ]
     )
 
-    ax.set_xlabel("Posição x (m)")
-    ax.set_ylabel("Posição y (m)")
-    ax.set_zlabel("Posição z (m)")
-    ax.set_title("Movimento sob Campo Eletromagnético")
-    ax.legend()
-    st.pyplot(fig)
+    fig.update_layout(
+        title="Movimento sob Campo Eletromagnético",
+        scene=dict(
+            xaxis_title="Posição x (m)",
+            yaxis_title="Posição y (m)",
+            zaxis_title="Posição z (m)",
+        ),
+        autosize=True,
+    )
+
+    st.plotly_chart(fig)
