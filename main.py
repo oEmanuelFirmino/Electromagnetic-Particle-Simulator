@@ -1,59 +1,47 @@
+import streamlit as st
+import numpy as np
 from particle import Particle
 from integration import without_magnetic_field, with_magnetic_field, runge_kutta
 
-
 def interactive_simulation():
-    q = float(input("Digite a carga (q) da partícula (C): "))
-    m = float(input("Digite a massa (m) da partícula (kg): "))
-    E = list(
-        map(
-            float,
-            input(
-                "Digite o campo elétrico E (em 3 componentes separados por espaço): "
-            ).split(),
-        )
+    st.title("Simulação de Movimento de Partícula sob Campos Elétrico e Magnético")
+
+    q = st.number_input("Carga (q) da partícula (C)", value=1e-6)
+    m = st.number_input("Massa (m) da partícula (kg)", value=1e-3)
+    E = st.text_input(
+        "Campo elétrico E (em 3 componentes separados por vírgula)", "0, 0, 1"
     )
-    B = list(
-        map(
-            float,
-            input(
-                "Digite o campo magnético B (em 3 componentes separados por espaço): "
-            ).split(),
-        )
+    B = st.text_input(
+        "Campo magnético B (em 3 componentes separados por vírgula)", "0, 0, 1"
     )
-    v0 = list(
-        map(
-            float,
-            input(
-                "Digite a velocidade inicial v0 (em 3 componentes separados por espaço): "
-            ).split(),
-        )
+    v0 = st.text_input(
+        "Velocidade inicial v0 (em 3 componentes separados por vírgula)", "1, 0, 0"
     )
-    r0 = list(
-        map(
-            float,
-            input(
-                "Digite a posição inicial r0 (em 3 componentes separados por espaço): "
-            ).split(),
-        )
+    r0 = st.text_input(
+        "Posição inicial r0 (em 3 componentes separados por vírgula)", "0, 0, 0"
     )
+
+    E = np.array(list(map(float, E.split(","))))
+    B = np.array(list(map(float, B.split(","))))
+    v0 = np.array(list(map(float, v0.split(","))))
+    r0 = np.array(list(map(float, r0.split(","))))
 
     particle = Particle(q, m, E, B, v0, r0)
 
-    print("\nEscolha o tipo de simulação:")
-    print("1. Sem campo magnético")
-    print("2. Com campo magnético")
-    print("3. Usando método de Runge-Kutta")
-    choice = int(input("Digite o número da opção: "))
+    simulation_type = st.radio(
+        "Escolha o tipo de simulação:",
+        ("Sem campo magnético", "Com campo magnético", "Método de Runge-Kutta"),
+    )
 
-    if choice == 1:
+    if simulation_type == "Sem campo magnético":
+        st.write("Simulação com campo elétrico uniforme (sem campo magnético)")
         without_magnetic_field(particle)
-    elif choice == 2:
+    elif simulation_type == "Com campo magnético":
+        st.write("Simulação com campos elétrico e magnético")
         with_magnetic_field(particle)
-    elif choice == 3:
+    elif simulation_type == "Método de Runge-Kutta":
+        st.write("Simulação usando o método de Runge-Kutta")
         runge_kutta(particle)
-    else:
-        print("Opção inválida.")
 
 
 if __name__ == "__main__":

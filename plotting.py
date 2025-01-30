@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import streamlit as st
 
 
 def plot_trajectory(x, y, title):
@@ -9,7 +10,7 @@ def plot_trajectory(x, y, title):
     plt.title(title)
     plt.legend()
     plt.grid()
-    plt.show()
+    st.pyplot(plt)
 
 
 def plot_3d_trajectory(r_values):
@@ -24,4 +25,4 @@ def plot_3d_trajectory(r_values):
     ax.set_zlabel("Posição z (m)")
     ax.set_title("Movimento sob Campo Eletromagnético")
     ax.legend()
-    plt.show()
+    st.pyplot(fig)

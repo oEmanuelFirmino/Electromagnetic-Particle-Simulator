@@ -17,9 +17,7 @@ def without_magnetic_field(particle, dt=0.01, t_max=2):
         v_values[i] = v_values[i - 1] + a * dt
         r_values[i] = r_values[i - 1] + v_values[i - 1] * dt
 
-    plot_trajectory(
-        r_values[:, 0], r_values[:, 1], 
-    )
+    plot_trajectory(r_values[:, 0], r_values[:, 1], title="Trajetória da Partícula")
 
 
 def with_magnetic_field(particle, dt=0.01, t_max=2):
