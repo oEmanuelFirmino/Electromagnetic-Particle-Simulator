@@ -22,7 +22,7 @@ def plot_3d_trajectory(r_values):
                 y=r_values[:, 1],
                 z=r_values[:, 2],
                 mode="lines",
-                marker=dict(size=4, color="blue"),
+                marker=dict(size=4, color="orange"),
             )
         ]
     )
